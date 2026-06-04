@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="DuoBench is a reproducible benchmark for bimanual manipulation on the Franka Research 3 Duo platform, with 11 tasks, stage-based evaluation, and sim-to-real task recipes.">
+  <meta name="description" content="DuoBench is a reproducible benchmark for bimanual manipulation on the Franka Research 3 Duo platform, with 11 tasks, stage-based evaluation, and reproducible sim-and-real task recipes.">
   <meta property="og:title" content="DuoBench: A Reproducible Benchmark for Bimanual Manipulation">
   <meta property="og:description" content="Paper website for DuoBench with benchmark motivation, task taxonomy, moving task previews, and high-level results.">
   <meta property="og:image" content="static/images/overview_main.png">
@@ -23,7 +23,7 @@
           <h1 class="publication-title">DuoBench: A Reproducible Benchmark for Bimanual Manipulation in Simulation and the Real World</h1>
 
           <div class="publication-authors">
-            <span class="author-block">Tobias Julg<sup>1*</sup>,</span>
+            <span class="author-block">Tobias J&uuml;lg<sup>1*</sup>,</span>
             <span class="author-block">Seongjin Bien<sup>1*</sup>,</span>
             <span class="author-block">Simon Hilber<sup>2</sup>,</span>
             <span class="author-block">Yannik Blei<sup>1</sup>,</span>
@@ -80,9 +80,9 @@
       <h2 class="section-title">Abstract</h2>
       <p>
         Bimanual robot systems substantially expand manipulation capabilities, but coordinating two arms introduces additional control complexity and failure modes that are not well captured by existing benchmarks.
-        DuoBench addresses this gap with eleven tasks spanning four coordination categories on the Franka Research 3 Duo platform, implemented in simulation and partially reproduced in the real world through reproducible task recipes with 3D-printable assets.
-        In addition, DuoBench introduces stage-based evaluation for fine-grained semantic failure analysis beyond binary success and provides human-teleoperated datasets for all benchmark tasks.
-        Across imitation-learning and recent VLA baselines, the benchmark exposes persistent difficulty in early interaction stages, parallel arm execution, and transfer between simulation and physical deployment.
+        We introduce DuoBench, an extensible benchmarking framework for bimanual manipulation on the Franka Research 3 Duo platform. DuoBench comprises eleven tasks spanning four coordination categories, implemented in simulation and partially reproduced in the real world through reproducible task recipes with 3D-printable assets.
+        In addition, it provides stage-based evaluation for fine-grained semantic failure analysis beyond binary success and human-teleoperated datasets for all benchmark tasks.
+        Across dual-arm imitation-learning and vision-language-action baselines, DuoBench exposes persistent difficulty in early interaction stages, parallel arm execution, and transfer between simulation and real-world settings.
       </p>
     </div>
   </section>
@@ -122,7 +122,7 @@
         </div>
         <div>
           <p>
-            DuoBench is built around the Franka Research 3 Duo setup and exposes the same benchmark logic through a shared environment interface for simulation, replay, teleoperation, and evaluation.
+            DuoBench is built around the Franka Research 3 Duo setup and exposes the same benchmark logic through a shared environment interface for simulation, teleoperation, replay, and evaluation.
           </p>
           <p>
             The goal is not just to report whether a policy succeeds on a single lab setup, but to make the benchmark itself reproducible across labs. Tasks can be recreated in simulation and, for a subset, in the real world with 3D-printable assets and shared teleoperation tools.
@@ -170,7 +170,7 @@
     <div class="container is-max-desktop">
       <h2 class="section-title">Benchmark Tasks</h2>
       <p class="section-intro">
-        The table below follows the README task list, but now uses the existing task GIFs from the benchmark media folder. The previews keep their native aspect ratio.
+        The table below summarizes the benchmark tasks, their environment IDs, and their language instructions. The previews keep their native aspect ratio.
       </p>
       <div class="table-container">
         <table class="task-table">
@@ -189,7 +189,7 @@
               <td><code>Ball-Maze</code></td>
               <td>Pick up a maze board with both arms and tilt it so a ball rolls into a target region.</td>
               <td><code>duobench/ball_maze</code></td>
-              <td><code>pick up the board and tilt it so the ball roles onto the red square</code></td>
+              <td><code>pick up the board and tilt it so the ball rolls onto the red square</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/bin_sort.mp4" type="video/mp4"></video></td>
@@ -208,35 +208,35 @@
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/carry_pot.mp4" type="video/mp4"></video></td>
               <td><code>Carry-Pot</code></td>
-              <td>Carry a pot using both side handles and place it onto a stove.</td>
+              <td>Carry a pot using both side handles and place it on a stove. Both arms are needed to lift the pot.</td>
               <td><code>duobench/carry_pot</code></td>
-              <td><code>use two arms to carry the pot at the handle on the stove</code></td>
+              <td><code>use both arms to carry the pot by its handles and place it on the stove</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/hinge_chest.mp4" type="video/mp4"></video></td>
               <td><code>Hinge-Chest</code></td>
-              <td>Hold the lid of a small chest open while inserting a box.</td>
+              <td>Holding the lid of a small chest open while inserting a box. One arm must hold the lid while the other inserts the box.</td>
               <td><code>duobench/hinge_chest</code></td>
               <td><code>open the box with the right arm and place the cube inside the box with the left arm</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/join_blocks.mp4" type="video/mp4"></video></td>
               <td><code>Join-Blocks</code></td>
-              <td>Connect two movable blocks together and then attach them to the peg on a stationary wall block.</td>
+              <td>Connect two movable blocks together and then attach them to a peg on a third stationary block.</td>
               <td><code>duobench/join_blocks</code></td>
               <td><code>join the two blocks using the peg on the left block and join the free socket of the right block with the peg on the wall</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/pour_marbles.mp4" type="video/mp4"></video></td>
               <td><code>Pour-Marbles</code></td>
-              <td>Pick up two cups, pour the marbles from one cup into the other, and place both cups back down.</td>
+              <td>Two cups, one containing marbles. Both cups must be picked up, and the marbles must be poured into the other cup before both cups are placed back.</td>
               <td><code>duobench/pour_marbles</code></td>
               <td><code>grasp and lift both cups, then pour the marbles from one cup into the other and place the cups back to their original location inside the green square</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/spring_door.mp4" type="video/mp4"></video></td>
               <td><code>Spring-Door</code></td>
-              <td>Hold a spring-loaded microwave door open while placing a box inside.</td>
+              <td>A spring-loaded microwave door requires one arm to hold it open while the other inserts a box.</td>
               <td><code>duobench/spring_door</code></td>
               <td><code>use the left arm to open the microwave door, then use the right arm to place the box inside the microwave, and close the door again</code></td>
             </tr>
@@ -250,14 +250,14 @@
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_gate.mp4" type="video/mp4"></video></td>
               <td><code>Transfer-Gate</code></td>
-              <td>Hand over a box through a gate before placing it onto a mat.</td>
+              <td>Hand over a box between arms before placing it onto a mat. The box has to be passed through a gate.</td>
               <td><code>duobench/transfer_gate</code></td>
               <td><code>use the right arm to pick up the white box, and hand it over to the left arm through the hoop, then place it on the green mat with the left arm</code></td>
             </tr>
             <tr>
               <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_reorient.mp4" type="video/mp4"></video></td>
               <td><code>Transfer-Reorient</code></td>
-              <td>Hand over a peg so the receiving arm can insert it into the matching socket.</td>
+              <td>The right arm picks up a peg and hands it over to the left arm so that the left arm can insert it into a socket.</td>
               <td><code>duobench/transfer_reorient</code></td>
               <td><code>grasp the block with the right arm, hand it over to the left arm such that the left arm can easily insert the piece later, then insert the block into the socket with the left arm</code></td>
             </tr>
@@ -273,18 +273,18 @@
       <div class="content-grid two-column">
         <div>
           <p>
-            DuoBench is challenging for current dual-arm policies. Across all 11 simulation tasks, the strongest overall baseline in the paper is ACT with a 13% average success rate, while VLA baselines remain similarly far from saturating the benchmark.
+            DuoBench is challenging for current dual-arm policies. Across the full set of 11 simulation tasks, the benchmark remains far from saturated across all evaluated baselines.
           </p>
           <p>
-            The stage-based analysis is particularly useful because many failures happen in the earliest interaction phases, especially grasp acquisition and initial task setup. The benchmark also reveals meaningful differences between tasks that look similar at a high level but differ strongly in execution difficulty.
+            The stage-based analysis is particularly useful because many failures happen in the earliest interaction phases, especially grasp acquisition and initial task setup. The benchmark also reveals meaningful differences between tasks that look similar at a high level but differ substantially in execution difficulty.
           </p>
           <p>
-            Parallel execution is especially difficult: Bin-Sort remains a weak point across policies, suggesting that independent coordinated control of both arms is still far from solved.
+            Parallel execution is especially difficult: Bin-Sort remains a weak point across policies, suggesting that independent yet coordinated control of both arms is still far from solved.
           </p>
         </div>
         <div>
           <p>
-            Mixed sim-and-real training can help on some real-world tasks, but the sim-to-real gap remains clearly visible. That makes DuoBench useful not only for comparing policies within a domain, but also for studying transfer strategies and data-mixing choices.
+            Mixed simulation-and-real training can help on some real-world tasks, but the sim-to-real gap remains clearly visible. That makes DuoBench useful not only for comparing policies within a domain, but also for studying transfer strategies and data-mixing choices.
           </p>
           <ul>
             <li>Early-stage failures dominate many rollouts</li>
@@ -308,7 +308,7 @@
 
       <h3 class="subsection-title">Real-World Results</h3>
       <p class="section-intro">
-        Real-world evaluation on the four replicated tasks shows the same overall pattern as simulation. Many failures happen early, with grasping and initial setup remaining the dominant bottlenecks. Hinge-Chest stays especially difficult, while Transfer-Cube and Bin-Sort show that later stages can work once the first interaction succeeds.
+        Real-world evaluation on the four replicated tasks shows the same overall pattern as simulation. Many failures happen early, with grasping and initial setup remaining the dominant bottlenecks. At the same time, once grasping succeeds, later stages are often completed reliably, especially in tasks such as Transfer-Cube and Bin-Sort.
       </p>
       <figure class="paper-figure paper-figure-wide">
         <img src="static/images/real_stage_failures.png" alt="Fraction of real-world rollouts that ended in a given stage across the four replicated tasks.">
