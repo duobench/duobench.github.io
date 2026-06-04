@@ -21,6 +21,16 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
+## GitHub Pages
+
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`.
+Pushes to `main` automatically deploy the site to GitHub Pages.
+
+In the GitHub repository settings, make sure:
+
+- `Pages` is enabled
+- `Source` is set to `GitHub Actions`
+
 ## Notes
 
 - The page currently uses section-anchor buttons instead of final public paper/code/dataset URLs.
