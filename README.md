@@ -1,37 +1,20 @@
-# DuoBench Website
+# DuoBench: A Reproducible Benchmark for Bimanual Manipulation in Simulation and the Real World
 
-Static paper website for DuoBench, designed for GitHub Pages and inspired by the existing `flowtouch.github.io` project while shifting toward a more editorial, blog-like layout.
+This is the repository that contains source code for the [DuoBench website](https://duobench.github.io/).
 
-## Contents
 
-- `index.html`: single-page site
-- `static/css/index.css`: custom styling
-- `static/js/index.js`: small smooth-scroll helper
-- `static/images/`: paper figures and task images
-- `static/gifs/`: animated task previews derived from the `media/` clips
-
-## Local preview
-
-Any static file server works. For example:
-
-```bash
-cd duobench.github.io
-python3 -m http.server 8000
+If you find DuoBench useful for your work, please consider citing it:
+```
+@misc{duobench,
+  title={{DuoBench}: A Reproducible Benchmark for Bimanual Manipulation in Simulation and the Real World}, 
+  author={Tobias J{\"u}lg and Seongjin Bien and Simon Hilber and Yannik Blei and Pierre Krack and Maximilian Li and Sven Parusel and Rudolf Lioutikov and Florian Walter and Wolfram Burgard},
+  year={2026},
+  url={https://arxiv.org/abs/2606.11901}
+}
 ```
 
-Then open `http://localhost:8000`.
+## Acknowledgments
+Template design by [Nerfies website](https://nerfies.github.io).
 
-## GitHub Pages
-
-This repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`.
-Pushes to `main` automatically deploy the site to GitHub Pages.
-
-In the GitHub repository settings, make sure:
-
-- `Pages` is enabled
-- `Source` is set to `GitHub Actions`
-
-## Notes
-
-- The page currently uses section-anchor buttons instead of final public paper/code/dataset URLs.
-- Those release links can be added directly in `index.html` once the final destinations are ready.
+## Website License
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
