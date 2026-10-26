@@ -789,3 +789,49 @@ ul {
     transition: none;
   }
 }
+
+/* ---------- sim/real switch on task cards ---------- */
+.task-media {
+  position: relative;
+}
+
+.media-switch {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: rgba(31, 38, 48, 0.72);
+}
+
+.media-switch button {
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #e6ebf1;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+}
+
+.media-switch button[aria-pressed="true"] {
+  background: #ffffff;
+  color: #1f2630;
+}
+
+.media-switch button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 1px;
+}
+
+.task-grid.is-1 .task-media video {
+  height: 100%;
+}
+
+.task-grid.is-1 .task-media {
+  height: 100%;
+}

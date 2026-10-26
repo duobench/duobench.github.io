@@ -36,3 +36,15 @@ if (rollVideo && rollItems.length) {
   rollItems.forEach((item) => item.addEventListener("click", () => selectRollout(item)));
   selectRollout(document.querySelector('.roll-item[aria-pressed="true"]') || rollItems[0]);
 }
+
+// Sim/real switch on the replicated task cards.
+document.querySelectorAll(".task-media").forEach((media) => {
+  const video = media.querySelector("video");
+  media.querySelectorAll(".media-switch button").forEach((button) => {
+    button.addEventListener("click", () => {
+      media.querySelectorAll(".media-switch button").forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+      video.src = video.dataset[button.dataset.view];
+      video.play().catch(() => {});
+    });
+  });
+});
