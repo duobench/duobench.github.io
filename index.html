@@ -16,6 +16,19 @@
 </head>
 <body>
 
+  <nav class="site-nav" aria-label="Sections">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="#top">DuoBench</a>
+      <div class="site-nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#tasks">Tasks</a>
+        <a href="#results">Results</a>
+        <a href="#inference">Rollouts</a>
+        <a href="#bibtex">Citation</a>
+      </div>
+    </div>
+  </nav>
+
   <section class="hero publication-header" id="top">
     <div class="hero-body">
       <div class="container is-max-desktop">
@@ -63,7 +76,7 @@
   </section>
 
   <section class="hero teaser" id="overview">
-    <div class="container is-max-desktop">
+    <div class="container is-max-wide">
       <div class="hero-body">
         <div class="main-figure-frame">
           <img class="main-figure" src="static/images/overview_main.png" alt="Overview of DuoBench with task categories, stage-based evaluation, and sim-to-real teleoperation pipeline.">
@@ -139,131 +152,221 @@
     </div>
   </section>
 
-  <section class="section">
-    <div class="container is-max-desktop">
-      <h2 class="section-title">Bimanual Task Taxonomy</h2>
-      <div class="taxonomy-grid">
-        <div class="card">
-          <h3>Asymmetric Support</h3>
-          <p>One arm stabilizes or holds an object while the other arm interacts with it indirectly, e.g. holding a lid open while the other arm inserts a cube.</p>
-          <p class="taxonomy-list">Hinge-Chest, Spring-Door, Pour-Marbles</p>
-        </div>
-        <div class="card">
-          <h3>Bimanual Manipulation</h3>
-          <p>Both arms jointly manipulate the same object, forming a closed kinematic chain, e.g. lifting a heavy pot.</p>
-          <p class="taxonomy-list">Ball-Maze, Carry-Pot, Block-Balance, Join-Blocks</p>
-        </div>
-        <div class="card">
-          <h3>Sequential Handoff</h3>
-          <p>An object is transferred between both arms due to workspace or task constraints; the role of the acting arm changes at the handover.</p>
-          <p class="taxonomy-list">Transfer-Cube, Transfer-Gate, Transfer-Reorient</p>
-        </div>
-        <div class="card">
-          <h3>Parallel Execution</h3>
-          <p>Both arms execute independent unimanual tasks, simultaneously or sequentially, without direct interdependence.</p>
-          <p class="taxonomy-list">Bin-Sort</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section hero is-light" id="tasks">
     <div class="container is-max-desktop">
       <h2 class="section-title">Benchmark Tasks</h2>
       <p class="section-intro">
-        The table below summarizes the benchmark tasks, their environment IDs, and their language instructions. The previews keep their native aspect ratio.
+        DuoBench has eleven tasks in four coordination categories, defined by the functional roles the two arms take. Each task is split into stages that the environment reports at every step; four tasks are also replicated on the real robot with 3D-printable assets. Every task is a Gymnasium environment under <code>duobench/&lt;task_id&gt;</code> with its own language instruction.
       </p>
-      <div class="table-container">
-        <table class="task-table">
-          <thead>
-            <tr>
-              <th>Task image</th>
-              <th>Paper task ID</th>
-              <th>Task description</th>
-              <th>Env ID string</th>
-              <th>Language instruction</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/ball_maze.mp4" type="video/mp4"></video></td>
-              <td><code>Ball-Maze</code></td>
-              <td>Pick up a maze board with both arms and tilt it so a ball rolls into a target region.</td>
-              <td><code>duobench/ball_maze</code></td>
-              <td><code>pick up the board and tilt it so the ball rolls onto the red square</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/bin_sort.mp4" type="video/mp4"></video></td>
-              <td><code>Bin-Sort</code></td>
-              <td>Sort two cubes into the matching bowls, testing simultaneous execution instead of direct cooperation.</td>
-              <td><code>duobench/bin_sort</code></td>
-              <td><code>use the left arm to place the white cube in the white bowl; use the right arm to place the black cube in the black bowl</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/block_balance.mp4" type="video/mp4"></video></td>
-              <td><code>Block-Balance</code></td>
-              <td>Place a beam on a support cube and then place two rectangular blocks on the beam simultaneously.</td>
-              <td><code>duobench/block_balance</code></td>
-              <td><code>place the beam on the cube and then place the other blocks on the beam simultaneously using one arm for each cube</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/carry_pot.mp4" type="video/mp4"></video></td>
-              <td><code>Carry-Pot</code></td>
-              <td>Carry a pot using both side handles and place it on a stove. Both arms are needed to lift the pot.</td>
-              <td><code>duobench/carry_pot</code></td>
-              <td><code>use two arms to carry the pot at the handle on the stove</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/hinge_chest.mp4" type="video/mp4"></video></td>
-              <td><code>Hinge-Chest</code></td>
-              <td>Holding the lid of a small chest open while inserting a box. One arm must hold the lid while the other inserts the box.</td>
-              <td><code>duobench/hinge_chest</code></td>
-              <td><code>open the box with the right arm and place the cube inside the box with the left arm</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/join_blocks.mp4" type="video/mp4"></video></td>
-              <td><code>Join-Blocks</code></td>
-              <td>Connect two movable blocks together and then attach them to a peg on a third stationary block.</td>
-              <td><code>duobench/join_blocks</code></td>
-              <td><code>join the two blocks using the peg on the left block and join the free socket of the right block with the peg on the wall</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/pour_marbles.mp4" type="video/mp4"></video></td>
-              <td><code>Pour-Marbles</code></td>
-              <td>Two cups, one containing marbles. Both cups must be picked up, and the marbles must be poured into the other cup before both cups are placed back.</td>
-              <td><code>duobench/pour_marbles</code></td>
-              <td><code>grasp and lift both cups, then pour the marbles from one cup into the other and place the cups back to their original location inside the green square</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/spring_door.mp4" type="video/mp4"></video></td>
-              <td><code>Spring-Door</code></td>
-              <td>A spring-loaded microwave door requires one arm to hold it open while the other inserts a box.</td>
-              <td><code>duobench/spring_door</code></td>
-              <td><code>use the left arm to open the microwave door, then use the right arm to place the box inside the microwave, and close the door again</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_cube.mp4" type="video/mp4"></video></td>
-              <td><code>Transfer-Cube</code></td>
-              <td>Hand over a cube between arms before placing it into a bowl.</td>
-              <td><code>duobench/transfer_cube</code></td>
-              <td><code>grasp the white cube with the right arm, hand it over to the left arm and place it in the white bowl with the left arm</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_gate.mp4" type="video/mp4"></video></td>
-              <td><code>Transfer-Gate</code></td>
-              <td>Hand over a box between arms before placing it onto a mat. The box has to be passed through a gate.</td>
-              <td><code>duobench/transfer_gate</code></td>
-              <td><code>use the right arm to pick up the white box, and hand it over to the left arm through the hoop, then place it on the green mat with the left arm</code></td>
-            </tr>
-            <tr>
-              <td class="preview-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_reorient.mp4" type="video/mp4"></video></td>
-              <td><code>Transfer-Reorient</code></td>
-              <td>The right arm picks up a peg and hands it over to the left arm so that the left arm can insert it into a socket.</td>
-              <td><code>duobench/transfer_reorient</code></td>
-              <td><code>grasp the block with the right arm, hand it over to the left arm such that the left arm can easily insert the piece later, then insert the block into the socket with the left arm</code></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="task-groups">
+        <div class="task-group cat-asym">
+          <div class="task-group-head">
+            <h3><span class="cat-dot" aria-hidden="true"></span>Asymmetric Support</h3>
+            <p>One arm stabilizes or holds an object while the other arm interacts with it indirectly, e.g. holding a lid open while the other arm inserts a cube.</p>
+          </div>
+          <div class="task-grid">
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/hinge_chest.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Hinge-Chest</h4>
+                  <span class="task-badge is-real">sim + real</span>
+                </div>
+                <p class="task-desc">Holding the lid of a small chest open while inserting a box. One arm must hold the lid while the other inserts the box.</p>
+                <div class="task-stages" aria-label="3 task stages">
+                  <span class="task-stages-label">3 stages</span>
+                  <ol><li>lid or box</li><li>box + lid</li><li>box in chest</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;open the box with the right arm and place the cube inside the box with the left arm&rdquo;</p>
+                <code class="task-env">duobench/hinge_chest</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/spring_door.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Spring-Door</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">A spring-loaded microwave door requires one arm to hold it open while the other inserts a box.</p>
+                <div class="task-stages" aria-label="3 task stages">
+                  <span class="task-stages-label">3 stages</span>
+                  <ol><li>door or box</li><li>box + door</li><li>box in oven</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;use the left arm to open the microwave door, then use the right arm to place the box inside the microwave, and close the door again&rdquo;</p>
+                <code class="task-env">duobench/spring_door</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/pour_marbles.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Pour-Marbles</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">Two cups, one containing marbles. Both cups must be picked up, and the marbles must be poured into the other cup before both cups are placed back.</p>
+                <div class="task-stages" aria-label="6 task stages">
+                  <span class="task-stages-label">6 stages</span>
+                  <ol><li>grasp 1 cup</li><li>grasp 2 cups</li><li>lift both</li><li>pour 1</li><li>pour all</li><li>place cups</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;grasp and lift both cups, then pour the marbles from one cup into the other and place the cups back to their original location inside the green square&rdquo;</p>
+                <code class="task-env">duobench/pour_marbles</code>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="task-group cat-bim">
+          <div class="task-group-head">
+            <h3><span class="cat-dot" aria-hidden="true"></span>Bimanual Manipulation</h3>
+            <p>Both arms jointly manipulate the same object, forming a closed kinematic chain, e.g. lifting a heavy pot.</p>
+          </div>
+          <div class="task-grid is-4">
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/ball_maze.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Ball-Maze</h4>
+                  <span class="task-badge is-real">sim + real</span>
+                </div>
+                <p class="task-desc">Pick up a maze board with both arms and tilt it so a ball rolls into a target region.</p>
+                <div class="task-stages" aria-label="4 task stages">
+                  <span class="task-stages-label">4 stages</span>
+                  <ol><li>touch maze</li><li>grasp both</li><li>lift, ball out</li><li>ball to goal</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;pick up the board and tilt it so the ball rolls onto the red square&rdquo;</p>
+                <code class="task-env">duobench/ball_maze</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/carry_pot.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Carry-Pot</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">Carry a pot using both side handles and place it on a stove. Both arms are needed to lift the pot.</p>
+                <div class="task-stages" aria-label="3 task stages">
+                  <span class="task-stages-label">3 stages</span>
+                  <ol><li>touch handle</li><li>grasp + lift</li><li>on stove</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;use two arms to carry the pot at the handle on the stove&rdquo;</p>
+                <code class="task-env">duobench/carry_pot</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/block_balance.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Block-Balance</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">Place a beam on a support cube and then place two rectangular blocks on the beam simultaneously.</p>
+                <div class="task-stages" aria-label="5 task stages">
+                  <span class="task-stages-label">5 stages</span>
+                  <ol><li>grasp beam</li><li>beam on cube</li><li>grasp rects</li><li>rects on beam</li><li>release</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;place the beam on the cube and then place the other blocks on the beam simultaneously using one arm for each cube&rdquo;</p>
+                <code class="task-env">duobench/block_balance</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/join_blocks.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Join-Blocks</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">Connect two movable blocks together and then attach them to a peg on a third stationary block.</p>
+                <div class="task-stages" aria-label="3 task stages">
+                  <span class="task-stages-label">3 stages</span>
+                  <ol><li>grasp both</li><li>connect</li><li>to wall</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;join the two blocks using the peg on the left block and join the free socket of the right block with the peg on the wall&rdquo;</p>
+                <code class="task-env">duobench/join_blocks</code>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="task-group cat-seq">
+          <div class="task-group-head">
+            <h3><span class="cat-dot" aria-hidden="true"></span>Sequential Handoff</h3>
+            <p>An object is transferred between both arms due to workspace or task constraints; the role of the acting arm changes at the handover.</p>
+          </div>
+          <div class="task-grid">
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_cube.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Transfer-Cube</h4>
+                  <span class="task-badge is-real">sim + real</span>
+                </div>
+                <p class="task-desc">Hand over a cube between arms before placing it into a bowl.</p>
+                <div class="task-stages" aria-label="4 task stages">
+                  <span class="task-stages-label">4 stages</span>
+                  <ol><li>pick cube</li><li>both grippers</li><li>hand over</li><li>place</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;grasp the white cube with the right arm, hand it over to the left arm and place it in the white bowl with the left arm&rdquo;</p>
+                <code class="task-env">duobench/transfer_cube</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_gate.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Transfer-Gate</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">Hand over a box between arms before placing it onto a mat. The box has to be passed through a gate.</p>
+                <div class="task-stages" aria-label="4 task stages">
+                  <span class="task-stages-label">4 stages</span>
+                  <ol><li>pick box</li><li>through ring</li><li>regrasp</li><li>place</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;use the right arm to pick up the white box, and hand it over to the left arm through the hoop, then place it on the green mat with the left arm&rdquo;</p>
+                <code class="task-env">duobench/transfer_gate</code>
+              </div>
+            </article>
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/transfer_reorient.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Transfer-Reorient</h4>
+                  <span class="task-badge">sim</span>
+                </div>
+                <p class="task-desc">The right arm picks up a peg and hands it over to the left arm so that the left arm can insert it into a socket.</p>
+                <div class="task-stages" aria-label="4 task stages">
+                  <span class="task-stages-label">4 stages</span>
+                  <ol><li>pick peg</li><li>both grippers</li><li>hand over</li><li>insert</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;grasp the block with the right arm, hand it over to the left arm such that the left arm can easily insert the piece later, then insert the block into the socket with the left arm&rdquo;</p>
+                <code class="task-env">duobench/transfer_reorient</code>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="task-group cat-par">
+          <div class="task-group-head">
+            <h3><span class="cat-dot" aria-hidden="true"></span>Parallel Execution</h3>
+            <p>Both arms execute independent unimanual tasks, simultaneously or sequentially, without direct interdependence.</p>
+          </div>
+          <div class="task-grid is-1">
+            <article class="task-card">
+              <video autoplay muted loop playsinline preload="metadata"><source src="static/videos/tasks/bin_sort.mp4" type="video/mp4"></video>
+              <div class="task-body">
+                <div class="task-head">
+                  <h4>Bin-Sort</h4>
+                  <span class="task-badge is-real">sim + real</span>
+                </div>
+                <p class="task-desc">Sort two cubes into the matching bowls, testing simultaneous execution instead of direct cooperation.</p>
+                <div class="task-stages" aria-label="5 task stages">
+                  <span class="task-stages-label">5 stages</span>
+                  <ol><li>pick 1st</li><li>pick 2nd/place</li><li>place 1st</li><li>pick 2nd</li><li>place 2nd</li></ol>
+                </div>
+                <p class="task-instruction">&ldquo;use the left arm to place the white cube in the white bowl; use the right arm to place the black cube in the black bowl&rdquo;</p>
+                <code class="task-env">duobench/bin_sort</code>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -324,20 +427,20 @@
             </tr>
           </thead>
           <tbody>
-              <tr class="category-row"><td colspan="10">Asymmetric Support</td></tr>
+              <tr class="category-row cat-asym"><td colspan="10"><span class="cat-dot" aria-hidden="true"></span>Asymmetric Support</td></tr>
               <tr><td>Hinge-Chest</td><td class="num">26.7 <span class="ci">[22–32]</span></td><td class="num muted">0.55</td><td>box + lid <span class="ci">(0.39)</span></td><td class="num">26.7 <span class="ci">[22–32]</span></td><td class="num muted">0.39</td><td>lid or box <span class="ci">(0.56)</span></td><td class="num">12.0 <span class="ci">[9–16]</span></td><td class="num muted">0.30</td><td>box + lid <span class="ci">(0.37)</span></td></tr>
               <tr><td>Spring-Door</td><td class="num">22.3 <span class="ci">[18–27]</span></td><td class="num muted">0.50</td><td>box + door <span class="ci">(0.33)</span></td><td class="num">19.7 <span class="ci">[16–25]</span></td><td class="num muted">0.44</td><td>box + door <span class="ci">(0.39)</span></td><td class="num">13.7 <span class="ci">[10–18]</span></td><td class="num muted">0.38</td><td>box + door <span class="ci">(0.37)</span></td></tr>
               <tr><td>Pour-Marbles</td><td class="num">0.3 <span class="ci">[0–2]</span></td><td class="num muted">0.12</td><td>pour all <span class="ci">(0.23)</span></td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.08</td><td>pour all <span class="ci">(0.00)</span></td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.07</td><td>place cups <span class="ci">(0.00)</span></td></tr>
-              <tr class="category-row"><td colspan="10">Bimanual Manipulation</td></tr>
+              <tr class="category-row cat-bim"><td colspan="10"><span class="cat-dot" aria-hidden="true"></span>Bimanual Manipulation</td></tr>
               <tr><td>Carry-Pot</td><td class="num">54.0 <span class="ci">[48–60]</span></td><td class="num muted">0.70</td><td>grasp + lift <span class="ci">(0.55)</span></td><td class="num">26.0 <span class="ci">[21–31]</span></td><td class="num muted">0.51</td><td>grasp + lift <span class="ci">(0.30)</span></td><td class="num">12.3 <span class="ci">[9–17]</span></td><td class="num muted">0.40</td><td>grasp + lift <span class="ci">(0.14)</span></td></tr>
               <tr><td>Ball-Maze</td><td class="num">8.0 <span class="ci">[5–12]</span></td><td class="num muted">0.71</td><td>ball to goal <span class="ci">(0.09)</span></td><td class="num">5.0 <span class="ci">[3–8]</span></td><td class="num muted">0.67</td><td>ball to goal <span class="ci">(0.06)</span></td><td class="num">2.0 <span class="ci">[1–4]</span></td><td class="num muted">0.71</td><td>ball to goal <span class="ci">(0.02)</span></td></tr>
               <tr><td>Block-Balance</td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.13</td><td>grasp rects <span class="ci">(0.00)</span></td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.08</td><td>rects on beam <span class="ci">(0.00)</span></td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.16</td><td>rects on beam <span class="ci">(0.00)</span></td></tr>
               <tr><td>Join-Blocks</td><td class="num">26.0 <span class="ci">[21–31]</span></td><td class="num muted">0.34</td><td>grasp both <span class="ci">(0.45)</span></td><td class="num">18.7 <span class="ci">[15–23]</span></td><td class="num muted">0.33</td><td>grasp both <span class="ci">(0.42)</span></td><td class="num">39.7 <span class="ci">[34–45]</span></td><td class="num muted">0.53</td><td>grasp both <span class="ci">(0.64)</span></td></tr>
-              <tr class="category-row"><td colspan="10">Sequential Handoff</td></tr>
+              <tr class="category-row cat-seq"><td colspan="10"><span class="cat-dot" aria-hidden="true"></span>Sequential Handoff</td></tr>
               <tr><td>Transfer-Cube</td><td class="num">10.0 <span class="ci">[7–14]</span></td><td class="num muted">0.14</td><td>pick cube <span class="ci">(0.20)</span></td><td class="num">13.0 <span class="ci">[10–17]</span></td><td class="num muted">0.28</td><td>pick cube <span class="ci">(0.47)</span></td><td class="num">9.3 <span class="ci">[7–13]</span></td><td class="num muted">0.17</td><td>pick cube <span class="ci">(0.33)</span></td></tr>
               <tr><td>Transfer-Gate</td><td class="num">42.7 <span class="ci">[37–48]</span></td><td class="num muted">0.49</td><td>pick box <span class="ci">(0.59)</span></td><td class="num">23.3 <span class="ci">[19–28]</span></td><td class="num muted">0.35</td><td>pick box <span class="ci">(0.49)</span></td><td class="num">26.3 <span class="ci">[22–32]</span></td><td class="num muted">0.36</td><td>pick box <span class="ci">(0.51)</span></td></tr>
               <tr><td>Transfer-Reorient</td><td class="num">0.3 <span class="ci">[0–2]</span></td><td class="num muted">0.35</td><td>insert <span class="ci">(0.01)</span></td><td class="num">1.3 <span class="ci">[1–3]</span></td><td class="num muted">0.36</td><td>insert <span class="ci">(0.04)</span></td><td class="num">0.0 <span class="ci">[0–1]</span></td><td class="num muted">0.30</td><td>insert <span class="ci">(0.00)</span></td></tr>
-              <tr class="category-row"><td colspan="10">Parallel Execution</td></tr>
+              <tr class="category-row cat-par"><td colspan="10"><span class="cat-dot" aria-hidden="true"></span>Parallel Execution</td></tr>
               <tr><td>Bin-Sort</td><td class="num">0.7 <span class="ci">[0–2]</span></td><td class="num muted">0.11</td><td>pick 2nd <span class="ci">(0.09)</span></td><td class="num">1.7 <span class="ci">[1–4]</span></td><td class="num muted">0.14</td><td>pick 2nd <span class="ci">(0.16)</span></td><td class="num">1.0 <span class="ci">[0–3]</span></td><td class="num muted">0.13</td><td>pick 2nd <span class="ci">(0.21)</span></td></tr>
           </tbody>
         </table>
@@ -363,74 +466,36 @@
     <div class="container is-max-desktop">
       <h2 class="section-title">Selected Rollouts</h2>
       <p class="section-intro">
-        These qualitative rollouts make the benchmark failure modes more concrete: some runs succeed once the initial interaction is correct, while others stall immediately at grasping, setup, or coordinated follow-through. Simulation clips are from the 300-rollout evaluation (head camera, real-time playback).
+        Policy rollouts in simulation and on the real robot. Successes show what a complete execution looks like; failures show the stage where a policy typically breaks down. Simulation clips from the 300-rollout evaluation play in real time from the head camera.
       </p>
-      <div class="video-grid">
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/maze_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Ball-Maze success:</strong> the policy establishes the correct dual-arm contact and then follows through on the task physics.</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/bin_sort_episode_024_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Bin-Sort success:</strong> an example where parallel execution works and both arms complete their own subtask.</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/ball_maze_real_episode_0.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Ball-Maze real-world rollout:</strong> a physical example on the replicated real setup, showing the same task family outside simulation.</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/problem_grasping.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Early grasp failure:</strong> a typical rollout where the policy never gets the first interaction under control.</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/transfer_cube_grasp_fail.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Transfer-Cube failure:</strong> the task breaks before the handover because the initial grasp and setup phase is unstable.</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/hinge_chest_act_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Hinge-Chest success (ACT, sim):</strong> one arm holds the lid open while the other places the cube inside the chest (26.7% success over 300 rollouts).</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/join_blocks_xvla_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Join-Blocks success (X-VLA, sim):</strong> both blocks are joined and attached to the peg on the wall; X-VLA is the strongest policy on this task (39.7%).</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/carry_pot_act_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Carry-Pot success (ACT, sim):</strong> both arms grasp the handles, lift the pot together, and place it on the stove (54.0%).</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/transfer_gate_act_success.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Transfer-Gate success (ACT, sim):</strong> the gate constrains where the handover happens, which makes this task easier than the unconstrained Transfer-Cube (42.7% vs. 10.0%).</figcaption>
-        </figure>
-        <figure class="video-card">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="static/videos/inference/transfer_reorient_pi05_handover_fail.mp4" type="video/mp4">
-          </video>
-          <figcaption><strong>Transfer-Reorient failure (&pi;<sub>0.5</sub>, sim):</strong> the peg is dropped during the reorienting handover; no policy exceeds 1.3% success on this task.</figcaption>
+      <div class="roll-viewer">
+        <div class="roll-list" role="group" aria-label="Choose a rollout">
+          <p class="roll-group-label">Simulation</p>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-hc-act" data-src="static/videos/inference/hinge_chest_act_success.mp4" aria-pressed="true"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>One arm holds the lid open while the other places the cube inside the chest. ACT succeeds in 26.7% of 300 rollouts.</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-jb-xvla" data-src="static/videos/inference/join_blocks_xvla_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Join-Blocks</span><span class="roll-policy">X-VLA</span><span class="roll-caption" hidden>Both blocks are joined and attached to the peg on the wall. X-VLA is the strongest policy on this task (39.7%).</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-cp-act" data-src="static/videos/inference/carry_pot_act_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Carry-Pot</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>Both arms grasp the handles, lift the pot together and place it on the stove (54.0%).</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-tg-act" data-src="static/videos/inference/transfer_gate_act_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Transfer-Gate</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>The gate constrains where the handover happens, which makes this task easier than the unconstrained Transfer-Cube (42.7% vs. 10.0%).</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-bm-sim" data-src="static/videos/inference/maze_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-caption" hidden>The policy establishes the dual-arm grasp, lifts the maze and tilts it until the ball reaches the goal.</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-tr-pi" data-src="static/videos/inference/transfer_reorient_pi05_handover_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Transfer-Reorient</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The peg is dropped during the reorienting handover. No policy exceeds 1.3% success on this task.</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-tc-fail" data-src="static/videos/inference/transfer_cube_grasp_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Transfer-Cube</span><span class="roll-caption" hidden>The task breaks before the handover because the initial pick is unstable. Picking up the cube is the bottleneck stage for all policies in simulation.</span></button>
+            <button type="button" class="roll-item" data-domain="simulation" id="roll-bs-fail" data-src="static/videos/inference/problem_grasping.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-caption" hidden>A typical early failure: the policy never gets the first grasp under control.</span></button>
+          <p class="roll-group-label">Real world</p>
+            <button type="button" class="roll-item" data-domain="real world" id="roll-bm-real" data-src="static/videos/inference/ball_maze_real_episode_0.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-caption" hidden>The same task on the real Franka Research 3 Duo: the arms grasp and lift the printed maze and tilt it until the ball reaches the red goal.</span></button>
+            <button type="button" class="roll-item" data-domain="real world" id="roll-bs-real" data-src="static/videos/inference/bin_sort_episode_024_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-caption" hidden>Parallel execution on the real robot: each arm places its cube into the bowl of matching color.</span></button>
+        </div>
+        <figure class="roll-stage">
+          <video id="roll-video" autoplay muted loop playsinline controls preload="metadata" src="static/videos/inference/hinge_chest_act_success.mp4"></video>
+          <figcaption>
+            <div class="roll-meta" id="roll-meta"></div>
+            <p id="roll-text">One arm holds the lid open while the other places the cube inside the chest. ACT succeeds in 26.7% of 300 rollouts.</p>
+          </figcaption>
         </figure>
       </div>
+      <p class="roll-legend"><span class="roll-outcome is-success" aria-hidden="true"></span>success <span class="roll-outcome is-failure" aria-hidden="true"></span>failure</p>
     </div>
   </section>
 
-  <section class="section hero is-light" id="bibtex">
+  <section class="section" id="bibtex">
     <div class="container is-max-desktop narrow">
       <h2 class="section-title">BibTeX</h2>
       <pre class="bibtex"><code>@misc{duobench,
