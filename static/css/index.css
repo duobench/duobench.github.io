@@ -185,13 +185,6 @@ pre {
   width: 100%;
 }
 
-.figure-caption {
-  margin: 0.9rem auto 0;
-  max-width: 90ch;
-  text-align: left;
-  color: #697383;
-}
-
 .section-title {
   margin: 0 0 1.5rem;
   text-align: center;
@@ -357,9 +350,6 @@ li {
   padding: 0.5rem 0.75rem 0.75rem;
 }
 
-.table-details .swipe-hint {
-  margin-left: 0.75rem;
-}
 
 .paper-figure {
   margin: 0;
@@ -821,10 +811,6 @@ ul {
 }
 
 /* ---------- narrow screens (kept last so they override the base rules) ---------- */
-.swipe-hint {
-  display: none;
-}
-
 @media (max-width: 980px) {
   .media-text-grid {
     grid-template-columns: 1fr;
@@ -943,17 +929,7 @@ ul {
     box-shadow: none;
   }
 
-  .swipe-hint {
-    display: block;
-    margin: 0.35rem 0 0;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
 
-  .table-container ~ .swipe-hint,
-  .content-grid + .swipe-hint {
-    margin-top: 1.5rem;
-  }
 
   /* task cards: one swipeable row per category */
   .task-grid,
@@ -991,9 +967,6 @@ ul {
     height: auto;
   }
 
-  .swipe-hint + .results-table-container {
-    margin-top: 0.4rem;
-  }
 
   .roll-stage figcaption {
     padding: 0.75rem 0.9rem 0.9rem;

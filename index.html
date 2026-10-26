@@ -81,10 +81,6 @@
         <div class="main-figure-frame fig-scroll">
           <img class="main-figure" src="static/images/overview_main.png" alt="Overview of DuoBench with task categories, stage-based evaluation, and sim-to-real teleoperation pipeline.">
         </div>
-        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
-        <p class="figure-caption">
-          Overview of DuoBench: four bimanual task categories with eleven tasks, and four replicated in the real world (left: real-world setup and simulated MuJoCo scene). Each task is decomposed into task stages to better understand policy failure modes. We provide a sim-to-real teleoperation pipeline to facilitate data collection across different labs and support extensibility.
-        </p>
       </div>
     </div>
   </section>
@@ -382,7 +378,6 @@
         <div class="fig-scroll">
           <img src="static/images/pass_rates_sim_vs_real.png" alt="Stage-conditional pass rates for the four replicated tasks in simulation and the real world." loading="lazy">
         </div>
-        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Stage-conditional pass rates <i>&rho;</i><sub>k</sub> with Wilson 95% intervals for the four tasks that exist in simulation (top, 300 rollouts) and the real world (bottom, 15 rollouts), each policy trained on the data of the evaluated domain. The x-axis names the sub-instruction to leave stage k. A series ends where no episode reached the next stage.</figcaption>
       </figure>
 
@@ -417,13 +412,11 @@
         <div class="fig-scroll">
           <img src="static/images/stage_failures.png" alt="Stage failure distributions across simulation tasks." loading="lazy">
         </div>
-        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Fraction of rollouts in simulation that failed in a given stage. Success rates are annotated above (A: ACT, &pi;: &pi;<sub>0.5</sub>, X: X-VLA).</figcaption>
       </figure>
 
       <details class="table-details">
         <summary>Show full results table</summary>
-        <p class="swipe-hint" aria-hidden="true">Swipe the table sideways for all three policies &rarr;</p>
         <div class="table-container results-table-container">
           <table class="results-table">
             <caption>Simulation evaluation, 300 rollouts per cell. Each cell reports the success rate (SR, %) with its Wilson 95% interval, the mean normalized task progress <i>p</i><sub>final</sub>, and the bottleneck stage with its stage-conditional pass rate <i>&rho;</i><sub>k</sub>.</caption>
@@ -469,7 +462,6 @@
         <div class="fig-scroll">
           <img src="static/images/real_stage_failures.png" alt="Fraction of real-world rollouts that ended in a given stage across the four replicated tasks.">
         </div>
-        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Fraction of real-world rollouts (15 per policy and task) that ended in a given stage. Success rates are annotated above for each policy-task pair.</figcaption>
       </figure>
     </div>
