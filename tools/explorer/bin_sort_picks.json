@@ -1,0 +1,154 @@
+{
+ "bs_act_k0_0": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/2_head_2026-10-22_00-58-56.mp4",
+  "seed": 122,
+  "margin": 1.334,
+  "frames": 350,
+  "k": 0,
+  "policy": "act"
+ },
+ "bs_act_k0_1": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/4_head_2026-10-22_01-15-23.mp4",
+  "seed": 139,
+  "margin": 1.326,
+  "frames": 350,
+  "k": 0,
+  "policy": "act"
+ },
+ "bs_act_k1_0": {
+  "video": "vids/evals-async-seed200/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/4_head_2026-10-22_01-50-15.mp4",
+  "seed": 204,
+  "margin": 1.35,
+  "frames": 350,
+  "k": 1,
+  "policy": "act"
+ },
+ "bs_act_k1_1": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/0_head_2026-10-22_00-40-08.mp4",
+  "seed": 130,
+  "margin": 1.299,
+  "frames": 350,
+  "k": 1,
+  "policy": "act"
+ },
+ "bs_act_k3_0": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/0_head_2026-10-22_00-41-39.mp4",
+  "seed": 170,
+  "margin": 1.361,
+  "frames": 350,
+  "k": 3,
+  "policy": "act"
+ },
+ "bs_act_k3_1": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/3_head_2026-10-22_01-06-55.mp4",
+  "seed": 113,
+  "margin": 1.276,
+  "frames": 350,
+  "k": 3,
+  "policy": "act"
+ },
+ "bs_act_k4_0": {
+  "video": "vids/evals-async-seed100/act_bin_sort/150000/bin_sort/videos/150000/duobench/bin_sort/1_head_2026-10-22_00-50-04.mp4",
+  "seed": 106,
+  "margin": 1.065,
+  "frames": 350,
+  "k": 4,
+  "policy": "act"
+ },
+ "bs_xvla_k0_0": {
+  "video": "vids/evals-async/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/2_head_2026-10-21_01-09-19.mp4",
+  "seed": 82,
+  "margin": 1.46,
+  "frames": 350,
+  "k": 0,
+  "policy": "xvla"
+ },
+ "bs_xvla_k0_1": {
+  "video": "vids/evals-async-seed100/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/3_head_2026-10-22_01-27-42.mp4",
+  "seed": 183,
+  "margin": 1.442,
+  "frames": 350,
+  "k": 0,
+  "policy": "xvla"
+ },
+ "bs_xvla_k1_0": {
+  "video": "vids/evals-async-seed100/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/5_head_2026-10-22_01-33-16.mp4",
+  "seed": 195,
+  "margin": 1.359,
+  "frames": 350,
+  "k": 1,
+  "policy": "xvla"
+ },
+ "bs_xvla_k1_1": {
+  "video": "vids/evals-async-seed100/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/4_head_2026-10-22_01-32-33.mp4",
+  "seed": 114,
+  "margin": 1.337,
+  "frames": 350,
+  "k": 1,
+  "policy": "xvla"
+ },
+ "bs_xvla_k2_0": {
+  "video": "vids/evals-async-seed100/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/8_head_2026-10-22_01-50-18.mp4",
+  "seed": 128,
+  "margin": 1.184,
+  "frames": 350,
+  "k": 2,
+  "policy": "xvla"
+ },
+ "bs_xvla_k3_0": {
+  "video": "vids/evals-async/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/0_head_2026-10-21_01-06-12.mp4",
+  "seed": 10,
+  "margin": 1.407,
+  "frames": 350,
+  "k": 3,
+  "policy": "xvla"
+ },
+ "bs_xvla_k3_1": {
+  "video": "vids/evals-async/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/2_head_2026-10-21_01-09-45.mp4",
+  "seed": 12,
+  "margin": 1.381,
+  "frames": 350,
+  "k": 3,
+  "policy": "xvla"
+ },
+ "bs_xvla_k4_0": {
+  "video": "vids/evals-async/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/0_head_2026-10-21_01-06-18.mp4",
+  "seed": 40,
+  "margin": 1.357,
+  "frames": 350,
+  "k": 4,
+  "policy": "xvla"
+ },
+ "bs_xvla_k4_1": {
+  "video": "vids/evals-async-seed100/xvla_sim/40000/bin_sort/videos/40000/duobench/bin_sort/4_head_2026-10-22_01-32-37.mp4",
+  "seed": 184,
+  "margin": 1.308,
+  "frames": 350,
+  "k": 4,
+  "policy": "xvla"
+ },
+ "bs_pi05_k2_0": {
+  "video": "vids/evals-async-seed200/pi05_sim/40000/bin_sort/videos/40000/duobench/bin_sort/10_head_2026-10-22_01-41-01.mp4",
+  "seed": 290,
+  "margin": 1.367,
+  "frames": 350,
+  "k": 2,
+  "policy": "pi05"
+ },
+ "bs_pi05_k2_1": {
+  "video": "vids/evals-async-seed200/pi05_sim/40000/bin_sort/videos/40000/duobench/bin_sort/4_head_2026-10-22_01-25-19.mp4",
+  "seed": 244,
+  "margin": 1.362,
+  "frames": 350,
+  "k": 2,
+  "policy": "pi05"
+ },
+ "bs_pi05_k4_0": {
+  "video": "vids/evals-async/pi05_sim/40000/bin_sort/videos/40000/duobench/bin_sort/11_head_2026-10-21_01-59-20.mp4",
+  "seed": 71,
+  "margin": 1.238,
+  "frames": 350,
+  "k": 4,
+  "policy": "pi05"
+ }
+}

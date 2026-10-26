@@ -469,32 +469,61 @@
 
   <section class="section hero is-light" id="inference">
     <div class="container is-max-desktop">
-      <h2 class="section-title">Selected Rollouts</h2>
+      <h2 class="section-title">Rollouts</h2>
+
+      <h3 class="subsection-title subsection-first">Simulation: where policies fail</h3>
       <p class="section-intro">
-        Policy rollouts in simulation and on the real robot. Successes show what a complete execution looks like; failures show the stage where a policy typically breaks down. Simulation clips from the 300-rollout evaluation play in real time from the head camera.
+        Pick a task, a policy and the stage a rollout ends in to watch how that policy fails there. The bars show how many of the policy&rsquo;s 300 evaluation rollouts end at each stage. Every clip is one of these rollouts, recorded by the head camera and played in real time.
       </p>
+      <div class="roll-viewer explorer" id="explorer">
+        <div class="roll-list ex-tasks" role="group" aria-label="Task">
+          <p class="roll-group-label cat-asym"><span class="cat-dot" aria-hidden="true"></span>Asymmetric Support</p>
+          <button type="button" class="roll-item ex-task cat-asym" data-task="hinge_chest" aria-pressed="true"><span class="roll-task">Hinge-Chest</span></button>
+          <button type="button" class="roll-item ex-task cat-asym" data-task="spring_door" aria-pressed="false"><span class="roll-task">Spring-Door</span></button>
+          <button type="button" class="roll-item ex-task cat-asym" data-task="pour_marbles" aria-pressed="false"><span class="roll-task">Pour-Marbles</span></button>
+          <p class="roll-group-label cat-bim"><span class="cat-dot" aria-hidden="true"></span>Bimanual Manipulation</p>
+          <button type="button" class="roll-item ex-task cat-bim" data-task="ball_maze" aria-pressed="false"><span class="roll-task">Ball-Maze</span></button>
+          <button type="button" class="roll-item ex-task cat-bim" data-task="carry_pot" aria-pressed="false"><span class="roll-task">Carry-Pot</span></button>
+          <button type="button" class="roll-item ex-task cat-bim" data-task="block_balance" aria-pressed="false"><span class="roll-task">Block-Balance</span></button>
+          <button type="button" class="roll-item ex-task cat-bim" data-task="join_blocks" aria-pressed="false"><span class="roll-task">Join-Blocks</span></button>
+          <p class="roll-group-label cat-seq"><span class="cat-dot" aria-hidden="true"></span>Sequential Handoff</p>
+          <button type="button" class="roll-item ex-task cat-seq" data-task="transfer_cube" aria-pressed="false"><span class="roll-task">Transfer-Cube</span></button>
+          <button type="button" class="roll-item ex-task cat-seq" data-task="transfer_gate" aria-pressed="false"><span class="roll-task">Transfer-Gate</span></button>
+          <button type="button" class="roll-item ex-task cat-seq" data-task="transfer_reorient" aria-pressed="false"><span class="roll-task">Transfer-Reorient</span></button>
+          <p class="roll-group-label cat-par"><span class="cat-dot" aria-hidden="true"></span>Parallel Execution</p>
+          <button type="button" class="roll-item ex-task cat-par" data-task="bin_sort" aria-pressed="false"><span class="roll-task">Bin-Sort</span></button>
+        </div>
+        <figure class="roll-stage ex-stage">
+          <div class="ex-controls">
+            <div class="ex-policies" role="group" aria-label="Policy">
+              <button type="button" data-policy="act" aria-pressed="true">ACT</button>
+              <button type="button" data-policy="pi05" aria-pressed="false">&pi;<sub>0.5</sub></button>
+              <button type="button" data-policy="xvla" aria-pressed="false">X-VLA</button>
+            </div>
+            <p class="ex-track-label" id="ex-track-label">Fails at</p>
+            <div class="ex-track" id="ex-track" role="group" aria-labelledby="ex-track-label"></div>
+            <p class="ex-note" id="ex-note" hidden></p>
+          </div>
+          <video id="ex-video" autoplay muted loop playsinline controls preload="metadata"></video>
+          <figcaption>
+            <p id="ex-text"></p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <h3 class="subsection-title">Real World</h3>
       <div class="roll-viewer">
-        <div class="roll-list" role="group" aria-label="Choose a rollout">
-          <p class="roll-group-label">Simulation</p>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-hc-act" data-src="static/videos/inference/hinge_chest_act_success.mp4" aria-pressed="true"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>One arm holds the lid open while the other places the cube inside the chest. ACT succeeds in 26.7% of 300 rollouts.</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-sd-pi" data-src="static/videos/inference/spring_door_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Spring-Door</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>One arm pulls the spring-loaded door open and holds it while the other places the box inside the microwave (19.7%).</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-cp-act" data-src="static/videos/inference/carry_pot_act_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Carry-Pot</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>Both arms grasp the handles, lift the pot together and place it on the stove (54.0%).</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-bm-act" data-src="static/videos/inference/ball_maze_act_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>Both arms grasp and lift the maze and tilt it until the ball reaches the red goal. Guiding the ball to the goal is the bottleneck stage; ACT succeeds in 8.0%.</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-tg-act" data-src="static/videos/inference/transfer_gate_act_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Transfer-Gate</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>The gate constrains where the handover happens, which makes this task easier than the unconstrained Transfer-Cube (42.7% vs. 10.0%).</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-tr-pi" data-src="static/videos/inference/transfer_reorient_pi05_handover_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Transfer-Reorient</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The peg is dropped during the reorienting handover. No policy exceeds 1.3% success on this task.</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-tc-act" data-src="static/videos/inference/transfer_cube_act_pick_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Transfer-Cube</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>The right arm tips the cube over instead of grasping it, and the left arm still moves to the bowl with nothing to place. Picking up the cube is the bottleneck stage for all policies in simulation; ACT passes it in 20% of rollouts.</span></button>
-            <button type="button" class="roll-item" data-domain="simulation" id="roll-bs-act" data-src="static/videos/inference/bin_sort_act_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-policy">ACT</span><span class="roll-caption" hidden>The right arm misses its cube and pushes it aside, and the episode runs into the 350-step limit. Picking the second cube is the bottleneck stage for all policies (0.7&ndash;1.7% success).</span></button>
-          <p class="roll-group-label">Real world</p>
-            <button type="button" class="roll-item" data-domain="real world" id="roll-bm-real" data-src="static/videos/inference/ball_maze_real_xvla_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-policy">X-VLA</span><span class="roll-caption" hidden>The same task on the real Franka Research 3 Duo: the arms grasp and lift the printed maze and tilt it until the ball reaches the red goal. X-VLA succeeds in 3 of 15 real rollouts.</span></button>
-            <button type="button" class="roll-item" data-domain="real world" id="roll-bs-real" data-src="static/videos/inference/bin_sort_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>Grasping is the hard part: after failed grasp attempts, the policy picks the cubes and sorts both into the matching bowls. &pi;<sub>0.5</sub> succeeds in 3 of 15 real rollouts.</span></button>
-            <button type="button" class="roll-item" data-domain="real world" id="roll-tc-real" data-src="static/videos/inference/transfer_cube_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Transfer-Cube</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The handover on the real robot: the right arm lifts the cube and passes it to the left arm, which places it on the plate. &pi;<sub>0.5</sub> completes 6 of 15 real rollouts, while ACT and X-VLA rarely pick up the cube (0 and 1 of 15).</span></button>
-            <button type="button" class="roll-item" data-domain="real world" id="roll-hc-real" data-src="static/videos/inference/hinge_chest_real_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The right arm repeatedly tries to lift the lid but never opens the chest, so the rollout never leaves the first stage. No policy succeeds on the real Hinge-Chest.</span></button>
+        <div class="roll-list" role="group" aria-label="Choose a real-world rollout">
+          <button type="button" class="roll-item" data-domain="real world" id="roll-bm-real" data-src="static/videos/inference/ball_maze_real_xvla_success.mp4" aria-pressed="true"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-policy">X-VLA</span><span class="roll-caption" hidden>The same task on the real Franka Research 3 Duo: the arms grasp and lift the printed maze and tilt it until the ball reaches the red goal. X-VLA succeeds in 3 of 15 real rollouts.</span></button>
+          <button type="button" class="roll-item" data-domain="real world" id="roll-bs-real" data-src="static/videos/inference/bin_sort_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>Grasping is the hard part: after failed grasp attempts, the policy picks the cubes and sorts both into the matching bowls. &pi;<sub>0.5</sub> succeeds in 3 of 15 real rollouts.</span></button>
+          <button type="button" class="roll-item" data-domain="real world" id="roll-tc-real" data-src="static/videos/inference/transfer_cube_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Transfer-Cube</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The handover on the real robot: the right arm lifts the cube and passes it to the left arm, which places it on the plate. &pi;<sub>0.5</sub> completes 6 of 15 real rollouts, while ACT and X-VLA rarely pick up the cube (0 and 1 of 15).</span></button>
+          <button type="button" class="roll-item" data-domain="real world" id="roll-hc-real" data-src="static/videos/inference/hinge_chest_real_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The right arm repeatedly tries to lift the lid but never opens the chest, so the rollout never leaves the first stage. No policy succeeds on the real Hinge-Chest.</span></button>
         </div>
         <figure class="roll-stage">
-          <video id="roll-video" autoplay muted loop playsinline controls preload="metadata" src="static/videos/inference/hinge_chest_act_success.mp4"></video>
+          <video id="roll-video" autoplay muted loop playsinline controls preload="metadata" src="static/videos/inference/ball_maze_real_xvla_success.mp4"></video>
           <figcaption>
             <div class="roll-meta" id="roll-meta"></div>
-            <p id="roll-text">One arm holds the lid open while the other places the cube inside the chest. ACT succeeds in 26.7% of 300 rollouts.</p>
+            <p id="roll-text">The same task on the real Franka Research 3 Duo: the arms grasp and lift the printed maze and tilt it until the ball reaches the red goal. X-VLA succeeds in 3 of 15 real rollouts.</p>
           </figcaption>
         </figure>
       </div>
@@ -514,6 +543,7 @@
     </div>
   </section>
 
+  <script src="static/js/rollouts.js"></script>
   <script src="static/js/index.js"></script>
   <!-- Default Statcounter code for DuoBench
   https://duobench.github.io/ -->

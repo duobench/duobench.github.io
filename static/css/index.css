@@ -37,6 +37,10 @@ html {
   scroll-padding-top: 3.5rem;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: 'Noto Sans', sans-serif;
   color: #2b2b2b;
@@ -810,6 +814,178 @@ ul {
   height: 100%;
 }
 
+/* ---------- simulation failure explorer ---------- */
+.ex-tasks .roll-group-label {
+  color: var(--cat);
+}
+
+.ex-tasks .roll-group-label .cat-dot {
+  display: none;
+}
+
+.ex-task::before {
+  content: "";
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--cat);
+}
+
+.ex-controls {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.ex-policies {
+  justify-self: start;
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+}
+
+.ex-policies button {
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+}
+
+.ex-policies button[aria-pressed="true"] {
+  background: #2d3642;
+  color: #ffffff;
+}
+
+.ex-policies button:focus-visible,
+.ex-step:focus-visible {
+  outline: 2px solid var(--cat-asym);
+  outline-offset: 2px;
+}
+
+.ex-track-label {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ex-track {
+  display: grid;
+  grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.ex-step {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  gap: 0.3rem;
+  min-width: 0;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.45rem 0.55rem 0.4rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ex-step:hover:not(:disabled) {
+  border-color: #c5cedb;
+}
+
+.ex-step:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.ex-step-name {
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.ex-step-name b {
+  color: var(--failure);
+}
+
+.ex-step.is-success .ex-step-name {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.ex-step-bar {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ex-step-bar i {
+  display: block;
+  height: 100%;
+  background: var(--failure);
+}
+
+.ex-step.is-success .ex-step-bar i {
+  background: var(--success);
+}
+
+.ex-step-pct {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.ex-step[aria-pressed="true"] {
+  background: #2d3642;
+  border-color: #2d3642;
+  color: #ffffff;
+}
+
+.ex-step[aria-pressed="true"] .ex-step-name b {
+  color: #ff9a8f;
+}
+
+.ex-step[aria-pressed="true"].is-success .ex-step-name {
+  color: #7fe0b5;
+}
+
+.ex-step[aria-pressed="true"] .ex-step-bar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ex-step[aria-pressed="true"] .ex-step-pct {
+  color: #c9d1dc;
+}
+
+.ex-stage figcaption p {
+  margin: 0;
+  color: var(--ink);
+}
+
+.ex-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ex-seed {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 /* ---------- narrow screens (kept last so they override the base rules) ---------- */
 @media (max-width: 980px) {
   .media-text-grid {
@@ -984,5 +1160,13 @@ ul {
 
   .results-table {
     min-width: 820px;
+  }
+
+  .ex-track {
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  }
+
+  .ex-controls {
+    padding: 0.75rem 0.9rem 0.85rem;
   }
 }
