@@ -135,7 +135,7 @@ if (explorer && rolloutData) {
         `<b>${policyName}</b> ${done} and fails at <b>${task.stages[state.stage]}</b>, ` +
         `like ${share}% of its ${run.total} rollouts on ${task.name}.`;
     }
-    exText.innerHTML += ` <span class="ex-seed">Seed ${clip.seed}.</span>`;
+    exText.innerHTML += ` <span class="ex-seed">Seed ${clip.seed}${clip.rerun ? ", from a repeat run of the same policy" : ""}.</span>`;
     if (exVideo.getAttribute("src") !== clip.src) {
       exVideo.setAttribute("src", clip.src);
       exVideo.play().catch(() => {});

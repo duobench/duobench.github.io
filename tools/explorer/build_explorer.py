@@ -7,7 +7,8 @@ end stage is certain: either the seed assignment is (frame count unique among th
 >= MIN_MARGIN), or every seed the video could belong to (same worker slot, same number of steps) ends in the same stage.
 Bin-Sort renders its bowls differently in the eval videos, so its image margins stay small; for its remaining cells the
 best-margin assignment is used (bin_sort_picks.json, spot-checked by eye). Pour-Marbles starts from the same scene for every
-seed, so its failure videos cannot be matched at all. Videos with decoding errors are skipped.
+seed, so its failure videos cannot be matched at all. Videos with decoding errors are skipped. Stages the matching
+cannot cover take a clip from a video-only re-run with seed-tagged names (VIDEO_RERUNS).
 
 Tasks in TAGGED were re-evaluated later (Join-Blocks with the stricter success check). Those evals name their videos
 <i>_seed<N>_<success|fail>_<camera>_<time>.mp4, so their counts and clips come straight from that eval, without matching.
@@ -19,6 +20,10 @@ root, site = sys.argv[1], sys.argv[2]
 MIN_MARGIN = 1.5
 POLICIES = {"act": "act_{task}", "pi05": "pi05_sim", "xvla": "xvla_sim"}
 TAGGED = {"join_blocks": "evals-jbcheck-async*"}
+# Video-only re-runs with seed-tagged names (same checkpoints and seeds). They fill stages the matching could not cover;
+# counts still come from the original eval, and the clip is a rollout that ended at that stage in the re-run.
+VIDEO_RERUNS = {t: "evals-jbcheck-async*" for t in ("pour_marbles", "transfer_cube", "transfer_reorient", "bin_sort")}
+WEKA = "/weka/robots-default/tobiasj/duobench_rerun"
 tasks = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.json")))
 matches = json.load(open(f"{root}/matches_all.json"))
 
@@ -51,12 +56,33 @@ def stage_certain(m):
 
 bin_sort_picks = {(x["policy"], x["k"]): x for name, x in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "bin_sort_picks.json"))).items()
                   if name.endswith("_0")}
-NOTES = {"pour_marbles": "Every Pour-Marbles rollout starts from the same scene, so most of its failure videos "
-                         "cannot be matched to their episodes; stages without a clip are greyed out."}
+NOTES = {}
 
 def clean(path):
     return subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-f", "null", "-"], capture_output=True,
                           text=True).stderr.strip() == ""
+
+def stage_seeds(pattern, n):
+    """end stage -> [(seed, results dir)] from the newest results JSON of every dir matching pattern"""
+    out = {}
+    for d in glob.glob(pattern):
+        res = sorted(glob.glob(f"{d}/results_*.json"))[-1]
+        e = json.load(open(res))[0]
+        for j, (succ, prog) in enumerate(zip(e["success"]["values"], e["reward_last_step"]["values"])):
+            out.setdefault(n if succ else round(prog * n), []).append((int(e["env_cfg"]["seed"]) + j, d))
+    return out
+
+def tagged_clip(task, n, k, by_stage):
+    """first clean head video of a rollout that ended at stage k, from an eval with seed-tagged video names;
+    looks next to the local results JSON first, then in the same place on weka"""
+    outcome = "success" if k == n else "fail"
+    for seed, d in sorted(by_stage.get(k, [])):
+        rel = os.path.relpath(d, f"{root}/vids")
+        for base in (d, f"{WEKA}/{rel}"):
+            for v in glob.glob(f"{base}/videos/*/duobench/{task}/*_seed{seed}_{outcome}_head_*.mp4"):
+                if clean(v):
+                    return {"seed": seed, "video": v}
+    return None
 
 data, jobs = {}, []
 for task, meta in tasks.items():
@@ -79,35 +105,27 @@ for task, meta in tasks.items():
                 counts[k] += 1
                 total += 1
                 tagged.setdefault(k, []).append((int(e["env_cfg"]["seed"]) + j, os.path.dirname(res)))
+        rerun = tagged if task in TAGGED else (stage_seeds(f"{root}/vids/{VIDEO_RERUNS[task]}/{run}/*/{task}", n)
+                                               if task in VIDEO_RERUNS else {})
         clips = []
         for k in range(n + 1):
-            if task in TAGGED:
-                vids = []
-                for seed, d in sorted(tagged.get(k, [])):
-                    outcome = "success" if k == n else "fail"
-                    vids += [(seed, os.path.relpath(v, root)) for v in
-                             glob.glob(f"{d}/videos/*/duobench/{task}/*_seed{seed}_{outcome}_head_*.mp4")]
-                pick = next(((seed, v) for seed, v in vids if clean(os.path.join(root, v))), None)
-                cands = [{"seed": pick[0], "video": pick[1]}] if pick else []
-                m = cands[0] if cands else None
-                if m is None:
-                    clips.append(None)
-                    continue
-                out = f"static/videos/explorer/{task}_{policy}_{'success' if k == n else f'stage{k}'}.mp4"
-                clips.append({"src": out, "seed": m["seed"]})
-                jobs.append((os.path.join(root, m["video"]), os.path.join(site, out)))
-                continue
-            cands = [m for m in matches if m["run"] == run and m["task"] == task and stage_certain(m)
-                     and (n if m["success"] else round(m["progress"] * n)) == k]
-            cands.sort(key=lambda m: (m["margin"] < MIN_MARGIN, m["seed"]))
-            if not cands and task == "bin_sort" and (policy, k) in bin_sort_picks:
-                cands = [bin_sort_picks[(policy, k)]]
-            m = next((m for m in cands if clean(os.path.join(root, m["video"]))), None)
+            m = None
+            if task not in TAGGED:
+                cands = [m for m in matches if m["run"] == run and m["task"] == task and stage_certain(m)
+                         and (n if m["success"] else round(m["progress"] * n)) == k]
+                cands.sort(key=lambda m: (m["margin"] < MIN_MARGIN, m["seed"]))
+                if not cands and task == "bin_sort" and (policy, k) in bin_sort_picks:
+                    cands = [bin_sort_picks[(policy, k)]]
+                m = next((m for m in cands if clean(os.path.join(root, m["video"]))), None)
+            if m is None and counts[k]:
+                m = tagged_clip(task, n, k, rerun)
+                if m and task not in TAGGED:
+                    m["rerun"] = True
             if m is None:
                 clips.append(None)
                 continue
             out = f"static/videos/explorer/{task}_{policy}_{'success' if k == n else f'stage{k}'}.mp4"
-            clips.append({"src": out, "seed": m["seed"]})
+            clips.append({"src": out, "seed": m["seed"], **({"rerun": True} if m.get("rerun") else {})})
             jobs.append((os.path.join(root, m["video"]), os.path.join(site, out)))
         data[task][policy] = {"total": total, "counts": counts, "clips": clips}
         print(f"{task:18s} {policy:5s} n={total} counts={counts} clips={[c is not None for c in clips]}")
