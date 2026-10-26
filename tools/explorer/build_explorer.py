@@ -8,6 +8,9 @@ end stage is certain: either the seed assignment is (frame count unique among th
 Bin-Sort renders its bowls differently in the eval videos, so its image margins stay small; for its remaining cells the
 best-margin assignment is used (bin_sort_picks.json, spot-checked by eye). Pour-Marbles starts from the same scene for every
 seed, so its failure videos cannot be matched at all. Videos with decoding errors are skipped.
+
+Tasks in TAGGED were re-evaluated later (Join-Blocks with the stricter success check). Those evals name their videos
+<i>_seed<N>_<success|fail>_<camera>_<time>.mp4, so their counts and clips come straight from that eval, without matching.
 """
 import glob, json, os, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
@@ -15,6 +18,7 @@ from concurrent.futures import ThreadPoolExecutor
 root, site = sys.argv[1], sys.argv[2]
 MIN_MARGIN = 1.5
 POLICIES = {"act": "act_{task}", "pi05": "pi05_sim", "xvla": "xvla_sim"}
+TAGGED = {"join_blocks": "evals-jbcheck-async*"}
 tasks = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.json")))
 matches = json.load(open(f"{root}/matches_all.json"))
 
@@ -64,17 +68,35 @@ for task, meta in tasks.items():
         run = run_of(policy, task)
         counts = [0] * (n + 1)
         total = 0
-        for res in glob.glob(f"{root}/vids/evals-async*/{run}/*/{task}/results_*.json"):
+        tagged = {}  # end stage -> [(seed, eval dir)] for TAGGED tasks
+        for res in glob.glob(f"{root}/vids/{TAGGED.get(task, 'evals-async*')}/{run}/*/{task}/results_*.json"):
             if res != sorted(glob.glob(os.path.join(os.path.dirname(res), "results_*.json")))[-1]:
                 continue
             e = json.load(open(res))[0]
-            for succ, prog in zip(e["success"]["values"], e["reward_last_step"]["values"]):
+            for j, (succ, prog) in enumerate(zip(e["success"]["values"], e["reward_last_step"]["values"])):
                 k = n if succ else round(prog * n)
                 assert succ or k < n, (task, policy, prog)
                 counts[k] += 1
                 total += 1
+                tagged.setdefault(k, []).append((int(e["env_cfg"]["seed"]) + j, os.path.dirname(res)))
         clips = []
         for k in range(n + 1):
+            if task in TAGGED:
+                vids = []
+                for seed, d in sorted(tagged.get(k, [])):
+                    outcome = "success" if k == n else "fail"
+                    vids += [(seed, os.path.relpath(v, root)) for v in
+                             glob.glob(f"{d}/videos/*/duobench/{task}/*_seed{seed}_{outcome}_head_*.mp4")]
+                pick = next(((seed, v) for seed, v in vids if clean(os.path.join(root, v))), None)
+                cands = [{"seed": pick[0], "video": pick[1]}] if pick else []
+                m = cands[0] if cands else None
+                if m is None:
+                    clips.append(None)
+                    continue
+                out = f"static/videos/explorer/{task}_{policy}_{'success' if k == n else f'stage{k}'}.mp4"
+                clips.append({"src": out, "seed": m["seed"]})
+                jobs.append((os.path.join(root, m["video"]), os.path.join(site, out)))
+                continue
             cands = [m for m in matches if m["run"] == run and m["task"] == task and stage_certain(m)
                      and (n if m["success"] else round(m["progress"] * n)) == k]
             cands.sort(key=lambda m: (m["margin"] < MIN_MARGIN, m["seed"]))
