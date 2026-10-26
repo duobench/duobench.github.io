@@ -270,7 +270,17 @@
 
   <section class="section" id="results">
     <div class="container is-max-desktop">
-      <h2 class="section-title">Simulation Results</h2>
+      <h2 class="section-title">Results</h2>
+      <h3 class="subsection-title subsection-first">Simulation vs. Real World</h3>
+      <p class="section-intro">
+        Stage-conditional pass rates locate the same bottlenecks in both domains. In Ball-Maze, the bimanual grasp is reliable in simulation and on the real robot (266 to 284 of 300 simulated, 10 to 11 of 15 real episodes), and guiding the ball to the goal is the bottleneck, succeeding in 2 to 9% (sim) and 0 to 27% (real) of grasped episodes. In Transfer-Cube, picking up the cube is the bottleneck in simulation for all policies and on the real robot for ACT and X-VLA (0 and 1 of 15), whereas &pi;<sub>0.5</sub> picks more reliably on the real robot (11 of 15) than in simulation (140 of 300). Simulation thus locates bottlenecks faithfully even where it misestimates success rates.
+      </p>
+      <figure class="paper-figure paper-figure-wide">
+        <img src="static/images/pass_rates_sim_vs_real.png" alt="Stage-conditional pass rates for the four replicated tasks in simulation and the real world." loading="lazy">
+        <figcaption>Stage-conditional pass rates <i>&rho;</i><sub>k</sub> with Wilson 95% intervals for the four tasks that exist in simulation (top, 300 rollouts) and the real world (bottom, 15 rollouts), each policy trained on the data of the evaluated domain. The x-axis names the sub-instruction to leave stage k. A series ends where no episode reached the next stage.</figcaption>
+      </figure>
+
+      <h3 class="subsection-title">Simulation</h3>
       <div class="content-grid two-column">
         <div>
           <p>
@@ -333,33 +343,18 @@
         </table>
       </div>
 
-      <div class="figure-grid">
-        <figure class="paper-figure">
-          <img src="static/images/stage_failures.png" alt="Stage failure distributions across simulation tasks." loading="lazy">
-          <figcaption>Fraction of rollouts in simulation that failed in a given stage. Success rates are annotated above (A: ACT, &pi;: &pi;<sub>0.5</sub>, X: X-VLA).</figcaption>
-        </figure>
-        <figure class="paper-figure">
-          <img src="static/images/sim_progress.png" alt="Average task progress over normalized rollout time." loading="lazy">
-          <figcaption>Average task progress over normalized time across all rollouts in simulation.</figcaption>
-        </figure>
-      </div>
+      <figure class="paper-figure paper-figure-wide">
+        <img src="static/images/stage_failures.png" alt="Stage failure distributions across simulation tasks." loading="lazy">
+        <figcaption>Fraction of rollouts in simulation that failed in a given stage. Success rates are annotated above (A: ACT, &pi;: &pi;<sub>0.5</sub>, X: X-VLA).</figcaption>
+      </figure>
 
-      <h3 class="subsection-title">Real-World Results</h3>
+      <h3 class="subsection-title">Real World</h3>
       <p class="section-intro">
         Real-world evaluation on the four replicated tasks shows the same overall pattern as simulation. Many failures happen early, with grasping and initial setup remaining the dominant bottlenecks. At the same time, once grasping succeeds, later stages are often completed reliably, especially in tasks such as Transfer-Cube and Bin-Sort.
       </p>
       <figure class="paper-figure paper-figure-wide">
         <img src="static/images/real_stage_failures.png" alt="Fraction of real-world rollouts that ended in a given stage across the four replicated tasks.">
         <figcaption>Fraction of real-world rollouts (15 per policy and task) that ended in a given stage. Success rates are annotated above for each policy-task pair.</figcaption>
-      </figure>
-
-      <h3 class="subsection-title">Simulation vs. Real World</h3>
-      <p class="section-intro">
-        Stage-conditional pass rates locate the same bottlenecks in both domains. In Ball-Maze, the bimanual grasp is reliable in simulation and on the real robot (266 to 284 of 300 simulated, 10 to 11 of 15 real episodes), and guiding the ball to the goal is the bottleneck, succeeding in 2 to 9% (sim) and 0 to 27% (real) of grasped episodes. In Transfer-Cube, picking up the cube is the bottleneck in simulation for all policies and on the real robot for ACT and X-VLA (0 and 1 of 15), whereas &pi;<sub>0.5</sub> picks more reliably on the real robot (11 of 15) than in simulation (140 of 300). Simulation thus locates bottlenecks faithfully even where it misestimates success rates.
-      </p>
-      <figure class="paper-figure paper-figure-wide">
-        <img src="static/images/pass_rates_sim_vs_real.png" alt="Stage-conditional pass rates for the four replicated tasks in simulation and the real world." loading="lazy">
-        <figcaption>Stage-conditional pass rates <i>&rho;</i><sub>k</sub> with Wilson 95% intervals for the four tasks that exist in simulation (top, 300 rollouts) and the real world (bottom, 15 rollouts), each policy trained on the data of the evaluated domain. The x-axis names the sub-instruction to leave stage k. A series ends where no episode reached the next stage.</figcaption>
       </figure>
     </div>
   </section>

@@ -155,7 +155,7 @@ pre {
 .figure-caption {
   margin: 0.9rem auto 0;
   max-width: 90ch;
-  text-align: center;
+  text-align: left;
   color: #697383;
 }
 
@@ -168,7 +168,7 @@ pre {
 }
 
 .subsection-title {
-  margin: 2.2rem 0 1rem;
+  margin: 2.8rem 0 1rem;
   text-align: center;
   font-family: 'Google Sans', 'Noto Sans', sans-serif;
   font-size: 1.55rem;
@@ -227,8 +227,12 @@ li {
   font-weight: 600;
 }
 
+.subsection-first {
+  margin-top: 0;
+}
+
 .section-intro {
-  text-align: center;
+  text-align: left;
   color: #697383;
   max-width: 72ch;
   margin: -0.5rem auto 1.5rem;
@@ -278,7 +282,7 @@ li {
   caption-side: bottom;
   margin-top: 0.75rem;
   color: #697383;
-  text-align: center;
+  text-align: left;
 }
 
 .results-table th,
@@ -349,7 +353,7 @@ li {
 .paper-figure figcaption {
   margin-top: 0.75rem;
   color: #697383;
-  text-align: center;
+  text-align: left;
 }
 
 .video-grid {
