@@ -78,9 +78,10 @@
   <section class="hero teaser" id="overview">
     <div class="container is-max-wide">
       <div class="hero-body">
-        <div class="main-figure-frame">
+        <div class="main-figure-frame fig-scroll">
           <img class="main-figure" src="static/images/overview_main.png" alt="Overview of DuoBench with task categories, stage-based evaluation, and sim-to-real teleoperation pipeline.">
         </div>
+        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <p class="figure-caption">
           Overview of DuoBench: four bimanual task categories with eleven tasks, and four replicated in the real world (left: real-world setup and simulated MuJoCo scene). Each task is decomposed into task stages to better understand policy failure modes. We provide a sim-to-real teleoperation pipeline to facilitate data collection across different labs and support extensibility.
         </p>
@@ -391,7 +392,10 @@
         Stage-conditional pass rates locate the same bottlenecks in both domains. In Ball-Maze, the bimanual grasp is reliable in simulation and on the real robot (266 to 284 of 300 simulated, 10 to 11 of 15 real episodes), and guiding the ball to the goal is the bottleneck, succeeding in 2 to 9% (sim) and 0 to 27% (real) of grasped episodes. In Transfer-Cube, picking up the cube is the bottleneck in simulation for all policies and on the real robot for ACT and X-VLA (0 and 1 of 15), whereas &pi;<sub>0.5</sub> picks more reliably on the real robot (11 of 15) than in simulation (140 of 300). Simulation thus locates bottlenecks faithfully even where it misestimates success rates.
       </p>
       <figure class="paper-figure paper-figure-wide">
-        <img src="static/images/pass_rates_sim_vs_real.png" alt="Stage-conditional pass rates for the four replicated tasks in simulation and the real world." loading="lazy">
+        <div class="fig-scroll">
+          <img src="static/images/pass_rates_sim_vs_real.png" alt="Stage-conditional pass rates for the four replicated tasks in simulation and the real world." loading="lazy">
+        </div>
+        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Stage-conditional pass rates <i>&rho;</i><sub>k</sub> with Wilson 95% intervals for the four tasks that exist in simulation (top, 300 rollouts) and the real world (bottom, 15 rollouts), each policy trained on the data of the evaluated domain. The x-axis names the sub-instruction to leave stage k. A series ends where no episode reached the next stage.</figcaption>
       </figure>
 
@@ -422,6 +426,7 @@
         </div>
       </div>
 
+      <p class="swipe-hint" aria-hidden="true">Swipe the table sideways for all three policies &rarr;</p>
       <div class="table-container results-table-container">
         <table class="results-table">
           <caption>Simulation evaluation, 300 rollouts per cell. Each cell reports the success rate (SR, %) with its Wilson 95% interval, the mean normalized task progress <i>p</i><sub>final</sub>, and the bottleneck stage with its stage-conditional pass rate <i>&rho;</i><sub>k</sub>.</caption>
@@ -459,7 +464,10 @@
       </div>
 
       <figure class="paper-figure paper-figure-wide">
-        <img src="static/images/stage_failures.png" alt="Stage failure distributions across simulation tasks." loading="lazy">
+        <div class="fig-scroll">
+          <img src="static/images/stage_failures.png" alt="Stage failure distributions across simulation tasks." loading="lazy">
+        </div>
+        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Fraction of rollouts in simulation that failed in a given stage. Success rates are annotated above (A: ACT, &pi;: &pi;<sub>0.5</sub>, X: X-VLA).</figcaption>
       </figure>
 
@@ -468,7 +476,10 @@
         Real-world evaluation on the four replicated tasks shows the same overall pattern as simulation. Many failures happen early, with grasping and initial setup remaining the dominant bottlenecks. At the same time, once grasping succeeds, later stages are often completed reliably, especially in tasks such as Transfer-Cube and Bin-Sort.
       </p>
       <figure class="paper-figure paper-figure-wide">
-        <img src="static/images/real_stage_failures.png" alt="Fraction of real-world rollouts that ended in a given stage across the four replicated tasks.">
+        <div class="fig-scroll">
+          <img src="static/images/real_stage_failures.png" alt="Fraction of real-world rollouts that ended in a given stage across the four replicated tasks.">
+        </div>
+        <p class="swipe-hint" aria-hidden="true">Swipe sideways to see the whole figure &rarr;</p>
         <figcaption>Fraction of real-world rollouts (15 per policy and task) that ended in a given stage. Success rates are annotated above for each policy-task pair.</figcaption>
       </figure>
     </div>
@@ -494,7 +505,8 @@
           <p class="roll-group-label">Real world</p>
             <button type="button" class="roll-item" data-domain="real world" id="roll-bm-real" data-src="static/videos/inference/ball_maze_real_xvla_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Ball-Maze</span><span class="roll-policy">X-VLA</span><span class="roll-caption" hidden>The same task on the real Franka Research 3 Duo: the arms grasp and lift the printed maze and tilt it until the ball reaches the red goal. X-VLA succeeds in 3 of 15 real rollouts.</span></button>
             <button type="button" class="roll-item" data-domain="real world" id="roll-bs-real" data-src="static/videos/inference/bin_sort_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Bin-Sort</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>Grasping is the hard part: after failed grasp attempts, the policy picks the cubes and sorts both into the matching bowls. &pi;<sub>0.5</sub> succeeds in 3 of 15 real rollouts.</span></button>
-            <button type="button" class="roll-item" data-domain="real world" id="roll-hc-real" data-src="static/videos/inference/hinge_chest_real_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">&pi;<sub>0.5</sub> (inferred)</span><span class="roll-caption" hidden>The right arm repeatedly tries to lift the lid but never opens the chest, so the rollout never leaves the first stage. No policy succeeds on the real Hinge-Chest. The policy was not logged with this recording; &pi;<sub>0.5</sub> is inferred from the per-rollout stage results.</span></button>
+            <button type="button" class="roll-item" data-domain="real world" id="roll-tc-real" data-src="static/videos/inference/transfer_cube_real_pi05_success.mp4" aria-pressed="false"><span class="roll-outcome is-success" aria-hidden="true"></span><span class="roll-task">Transfer-Cube</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The handover on the real robot: the right arm lifts the cube and passes it to the left arm, which places it on the plate. In this recording a person had nudged the cube into the open gripper beforehand (cut from the clip). &pi;<sub>0.5</sub> completes 6 of 15 real rollouts unassisted, while ACT and X-VLA rarely pick up the cube (0 and 1 of 15).</span></button>
+            <button type="button" class="roll-item" data-domain="real world" id="roll-hc-real" data-src="static/videos/inference/hinge_chest_real_fail.mp4" aria-pressed="false"><span class="roll-outcome is-failure" aria-hidden="true"></span><span class="roll-task">Hinge-Chest</span><span class="roll-policy">&pi;<sub>0.5</sub></span><span class="roll-caption" hidden>The right arm repeatedly tries to lift the lid but never opens the chest, so the rollout never leaves the first stage. No policy succeeds on the real Hinge-Chest.</span></button>
         </div>
         <figure class="roll-stage">
           <video id="roll-video" autoplay muted loop playsinline controls preload="metadata" src="static/videos/inference/hinge_chest_act_success.mp4"></video>

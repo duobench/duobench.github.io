@@ -357,54 +357,6 @@ ul {
   padding-left: 1.25rem;
 }
 
-@media (max-width: 980px) {
-  .media-text-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .task-grid,
-  .task-grid.is-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .roll-viewer {
-    grid-template-columns: 1fr;
-  }
-
-  .roll-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .roll-group-label {
-    width: 100%;
-  }
-}
-
-@media (max-width: 700px) {
-  .hero-body,
-  .section {
-    padding: 2.25rem 1rem;
-  }
-
-  .publication-authors,
-  .publication-affiliations {
-    font-size: 1rem;
-  }
-
-  .two-column,
-  .figure-grid,
-  .task-grid,
-  .task-grid.is-4,
-  .task-grid.is-1 .task-card {
-    grid-template-columns: 1fr;
-  }
-
-  .site-nav-brand {
-    display: none;
-  }
-}
-
 /* ---------- section nav ---------- */
 .site-nav {
   position: sticky;
@@ -773,12 +725,6 @@ ul {
   margin-left: 0.6rem;
 }
 
-@media (max-width: 980px) {
-  .roll-item {
-    width: auto;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -834,4 +780,198 @@ ul {
 
 .task-grid.is-1 .task-media {
   height: 100%;
+}
+
+/* ---------- narrow screens (kept last so they override the base rules) ---------- */
+.swipe-hint {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .media-text-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-grid,
+  .task-grid.is-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roll-viewer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* rollout chips wrap above the player */
+  .roll-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .roll-group-label {
+    width: 100%;
+  }
+
+  .roll-item {
+    width: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-body,
+  .section {
+    padding-block: 2.25rem;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .publication-header .hero-body {
+    padding-top: 2.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .teaser .hero-body {
+    padding-top: 0.5rem;
+  }
+
+  .publication-title {
+    font-size: 1.85rem;
+    text-wrap: balance;
+  }
+
+  .publication-authors,
+  .publication-affiliations {
+    font-size: 0.95rem;
+  }
+
+  .section-title {
+    font-size: 1.65rem;
+  }
+
+  .subsection-title {
+    font-size: 1.3rem;
+    margin-top: 2rem;
+  }
+
+  p,
+  li {
+    font-size: 1rem;
+  }
+
+  .button {
+    padding: 0.65rem 1.05rem;
+  }
+
+  .two-column,
+  .figure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-nav-brand {
+    display: none;
+  }
+
+  .site-nav-inner {
+    padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+  }
+
+  .site-nav-links {
+    scrollbar-width: none;
+  }
+
+  .site-nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* wide paper figures: keep them legible and let them scroll sideways */
+  .fig-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fig-scroll img {
+    width: auto;
+    max-width: none;
+    height: auto;
+    min-width: 100%;
+  }
+
+  .main-figure-frame.fig-scroll img {
+    width: 860px;
+  }
+
+  .paper-figure .fig-scroll img {
+    width: 640px;
+    box-shadow: none;
+  }
+
+  .swipe-hint {
+    display: block;
+    margin: 0.35rem 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .table-container ~ .swipe-hint,
+  .content-grid + .swipe-hint {
+    margin-top: 1.5rem;
+  }
+
+  /* task cards: one swipeable row per category */
+  .task-grid,
+  .task-grid.is-4 {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    align-items: start;
+    gap: 0.75rem;
+    padding-bottom: 0.4rem;
+    scrollbar-width: thin;
+  }
+
+  .task-grid > .task-card {
+    scroll-snap-align: start;
+  }
+
+  .task-grid.is-1 {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+  }
+
+  .task-grid.is-1 .task-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .task-grid.is-1 .task-media,
+  .task-grid.is-1 .task-media video,
+  .task-grid.is-1 .task-card video {
+    height: auto;
+  }
+
+  .swipe-hint + .results-table-container {
+    margin-top: 0.4rem;
+  }
+
+  .roll-stage figcaption {
+    padding: 0.75rem 0.9rem 0.9rem;
+  }
+
+  .roll-item {
+    font-size: 0.88rem;
+    padding: 0.4rem 0.6rem;
+    gap: 0.4rem;
+  }
+
+  .roll-policy {
+    font-size: 0.8rem;
+  }
+
+  .results-table {
+    min-width: 820px;
+  }
 }
